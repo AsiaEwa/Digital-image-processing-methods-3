@@ -1,0 +1,27 @@
+A=imread('lena.png'); 
+
+%B = rgb2gray( A );
+%UNTITLED2 Summary of this function goes here
+%   Detailed explanation goes here
+w=size(A,1);
+h=size(A,2);
+U=A(:,:,1);
+
+if size(A,3)>1
+   
+   for i=1:w
+    for j=1:h
+        U(i,j)=0.3*A(i,j,1)+0.6*A(i,j,2)+0.11*A(i,j,3);
+    end
+   end
+B(:,:,1)=U;
+%B(:,:,2)=U;
+%B(:,:,3)=U;
+
+else 
+    B=A;
+end
+imshow (B);   
+
+
+
