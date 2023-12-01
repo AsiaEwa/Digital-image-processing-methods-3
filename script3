@@ -1,0 +1,61 @@
+
+A = imread('lena.png');
+B = rgb2gray(A);
+width = size(B,1);
+height = size(B,2);
+h = zeros(256,1);
+probh = zeros(256,1);
+probH = zeros(256,1);
+output = zeros(256,1);
+M = width*height;
+for i=1:width
+for j=1:height
+        h(B(i,j)+1)=h(B(i,j)+1)+1;
+        probh(B(i,j)+1)=h(B(i,j)+1)/M;
+end
+end
+figure(1)
+plot(h);
+%C(i,j)
+H = zeros(256,1);
+%H(1) = h(1);
+K=256;
+sum = 0;
+for i=1:size(probh)
+   sum=sum+h(i);
+   H(i)=sum;
+   probH(i)=H(i)/M;
+   output(i)=round(probH(i)*255);
+end
+figure(2)
+plot(H);
+C=B;
+for i=1:width
+for j=1:height
+%C(i,j)= output(B(i,j)+1);
+        C(i,j) = H(B(i,j)+1)*255/M;
+end
+end
+figure(3)
+imshow(C);
+
+hc=zeros(256,1);
+for i=1:width
+for j=1:height
+        hc(C(i,j)+1)=hc(C(i,j)+1)+1;
+end
+end
+figure(4)
+plot(hc);
+Hc = zeros(256,1);
+%H(1) = h(1);
+sum=0;
+for i=1:size(probh)
+   sum=sum+hc(i);
+   Hc(i)=sum;
+end
+figure(5)
+plot(Hc);
+
+uiwait(msgbox('Kliknik OK aby zamknąć wszystkie obrazy'));
+close all;
