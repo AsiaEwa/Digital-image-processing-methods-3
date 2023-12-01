@@ -1,5 +1,5 @@
 # Digital-image-processing-methods-3
-Digital image processing m
+## Digital image processing:
 1. Transform the image to obtain an output image in shades of gray.
 2. Display the histogram and align it
    The image can be normalized using a for loop (in the loop, the output image should be divided by the product of its width and height)
