@@ -1,0 +1,94 @@
+A = imread('lena.png'); 
+%wczytanie obrazu do macierzy A
+B = rgb2gray(A);
+%konwersja obrazu do skali szarości za pisanego w macierzy B
+width = size(B,1); 
+%odczytanie szerokości macierzy
+height = size(B,2); 
+%odczytanie wysokości macierzy
+h = zeros(256,1); 
+%stworzenie wektora o zadanej długości zawierającego "0"
+LUT = zeros(256,1);
+%stworzenie wektora LUT zawierającego "0".
+for i=1:width
+    for j=1:height
+        h(B(i,j)+1)=h(B(i,j)+1)+1; 
+%zwiększenie wartości wystąpienia danej wartości z macierzy B
+    end
+end
+minIN = 200; 
+%minimalna wartość koloru z obrazu wejściowego
+maxIN = 200; 
+%maksymalna wartość koloru z obrazu wejściowego
+minOUT = 0;
+maxOUT = 255;
+a = (maxOUT - minOUT)/(maxIN-minIN);
+b = minOUT - a*minIN; 
+p=1;
+for i=1:size(h,1)
+    LUT1(i) = round(i^p);
+    LUT2(i) = a*(i-minIN);
+end
+
+%przypisujemy obrazowi wartości z tablicy LUT
+C = B;
+for i=1:width
+    for j=1:height
+        C(i,j)=LUT1(B(i,j)); 
+%zwiększenie wartości wystąpienia danej wartości z macierzy B
+        if LUT1(B(i,j))<0
+            C(i,j) = 0;
+        end
+        if LUT1(B(i,j))>255
+            C(i,j) = 255;
+        end
+    end
+end
+
+D = B;
+for i=1:width
+    for j=1:height
+        D(i,j)=LUT2(B(i,j)); 
+%zwiększenie wartości wystąpienia danej wartości z macierzy B
+        if LUT2(B(i,j))<0
+            D(i,j) = 0;
+        end
+        if LUT2(B(i,j))>255
+            D(i,j) = 255;
+        end
+    end
+end
+figure(1) 
+%stworzenie okna 1...
+imshow(B); 
+%... do wyświetlenia wczytanego obrazu
+figure(2) 
+%oraz utworzenie okna 2...
+imshow(C); 
+%...i wykreślenie w nim obrazu z wyrównanym kontrastem
+h2 = zeros(256,1); 
+%stworzenie wektora o zadanej długości zawierającego "0"
+for i=1:width
+for j=1:height
+        h2(C(i,j)+1)=h2(C(i,j)+1)+1; 
+%zwiększenie wartości wystąpienia danej wartości z macierzy C
+end
+end
+
+h3 = zeros(256,1); 
+for i=1:width
+for j=1:height
+        h3(D(i,j)+1)=h3(D(i,j)+1)+1; 
+%zwiększenie wartości wystąpienia danej wartości z macierzy C
+end
+end
+figure(3) 
+%oraz utworzenie okna 2...
+plot(h2); 
+%...i wykreślenie w nim histogramu rozciągniętego
+figure(4);
+imshow(D); 
+figure(5);
+plot(h3);
+%uiwait(msgbox('Kliknik OK aby zamknąć wszystkie obrazy'));
+%close all;
